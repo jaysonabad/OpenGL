@@ -31,32 +31,49 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         mContext = context;
     }
 
+
     private void setAllBuffers(){
-        float vertexList[] = {
-                -1.0f, 0.0f, -1.0f,
-                1.0f, 0.0f, -1.0f,
-                -1.0f, 0.0f, 1.0f,
-                1.0f, 0.0f, 1.0f,
-                0.0f, 2.0f, 0.0f,
+        float vertices[] = {
+                -0.5f, 0.5f, 0.5f, // 0
+                0.5f, 0.5f, 0.5f, // 1
+                0.5f, -0.5f, 0.5f, // 2
+                -0.5f, -0.5f, 0.5f, // 3
+
+                -0.5f, 0.5f, -0.5f, // 4
+                0.5f, 0.5f, -0.5f, // 5
+                0.5f, -0.5f, -0.5f, // 6
+                -0.5f, -0.5f, -0.5f, // 7
         };
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertexList.length * 4);
+        short faces[] = {
+                // front face
+                0, 1, 2,
+                2, 3, 0,
+                // back face
+                4, 5, 6,
+                6, 7, 4,
+                // right face
+                1, 5, 6,
+                6, 2, 1,
+                // left face
+                0, 4, 7,
+                7, 3, 0,
+                // top face
+                4, 5, 1,
+                1, 0, 4,
+                // bottom face
+                7, 6, 2,
+                2, 3, 7
+        };
+        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
         vbb.order(ByteOrder.nativeOrder());
         mVertexBuffer = vbb.asFloatBuffer();
-        mVertexBuffer.put(vertexList);
+        mVertexBuffer.put(vertices);
         mVertexBuffer.position(0);
-        short trigborderindexlist[] = {
-                4, 0, 4,
-                1, 4, 2,
-                4, 3, 0,
-                1, 1, 3,
-                3, 2, 2,
-                0, 0, 3
-        };
-        mNumOfTriangleBorderIndices = trigborderindexlist.length;
-        ByteBuffer tbibb = ByteBuffer.allocateDirect(trigborderindexlist.length * 2);
+        mNumOfTriangleBorderIndices = faces.length;
+        ByteBuffer tbibb = ByteBuffer.allocateDirect(faces.length * 2);
         tbibb.order(ByteOrder.nativeOrder());
         mTriangleBorderIndicesBuffer = tbibb.asShortBuffer();
-        mTriangleBorderIndicesBuffer.put(trigborderindexlist);
+        mTriangleBorderIndicesBuffer.put(faces);
         mTriangleBorderIndicesBuffer.position(0);
     }
 
@@ -104,9 +121,9 @@ public class MyRenderer implements GLSurfaceView.Renderer {
         gl.glRotatef(mAngleY, 0, 1, 0);
         gl.glRotatef(mAngleZ, 0, 0, 1);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-        gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+        gl.glColor4f(0.5f, 0.5f, 0.9f, 1.0f);
         gl.glDrawElements(
-                GL10.GL_LINES,
+                GL10.GL_TRIANGLES,
                 mNumOfTriangleBorderIndices,
                 GL10.GL_UNSIGNED_SHORT,
                 mTriangleBorderIndicesBuffer
