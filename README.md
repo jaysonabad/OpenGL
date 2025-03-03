@@ -1,6 +1,8 @@
 # OpenGL Practice Code
 
 <p>Cube Vertices and Faces</p>
+
+```
 float vertices[] = {
   -0.5f, 0.5f, 0.5f, // 0
   0.5f, 0.5f, 0.5f, // 1
@@ -12,6 +14,9 @@ float vertices[] = {
   0.5f, -0.5f, -0.5f, // 6
   -0.5f, -0.5f, -0.5f, // 7
 };
+```
+
+```
 short faces[] = {
   // front face
   0, 1, 2,
@@ -32,3 +37,4 @@ short faces[] = {
   7, 6, 2,
   2, 3, 7
 };
+```
